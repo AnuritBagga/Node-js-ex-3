@@ -7,12 +7,10 @@ const PORT = 3000;
 
 app.use(bodyParser.json());
 
-// Root route
 app.get("/", (req, res) => {
   res.send("🎟️ Ticket Booking API Running!");
 });
 
-// Booking routes
 app.use("/api", bookingRoutes);
 
 app.listen(PORT, () => {
