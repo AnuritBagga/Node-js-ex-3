@@ -2,16 +2,14 @@ import express from "express";
 
 const router = express.Router();
 
-// In-memory seat storage
 const TOTAL_SEATS = 10;
 let seats = Array.from({ length: TOTAL_SEATS }, (_, i) => ({
   id: i + 1,
-  status: "available", // available | locked | booked
+  status: "available", 
   lockedBy: null,
   lockExpire: null,
 }));
 
-// Helper to check and release expired locks
 function releaseExpiredLocks() {
   const now = Date.now();
   seats.forEach((seat) => {
@@ -23,13 +21,11 @@ function releaseExpiredLocks() {
   });
 }
 
-// Get all seats
 router.get("/seats", (req, res) => {
   releaseExpiredLocks();
   res.json(seats);
 });
 
-// Lock a seat
 router.post("/lock/:id", (req, res) => {
   releaseExpiredLocks();
 
@@ -53,7 +49,6 @@ router.post("/lock/:id", (req, res) => {
   res.json({ message: `Seat ${seatId} locked for ${user}`, seat });
 });
 
-// Confirm booking
 router.post("/confirm/:id", (req, res) => {
   releaseExpiredLocks();
 
